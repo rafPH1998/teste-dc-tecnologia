@@ -34,6 +34,7 @@ Route clientes
 */
 Route::get('/clients', [ClientsController::class, 'index'])->name('clients.index');
 Route::get('/clients/create', [ClientsController::class, 'create'])->name('clients.create');
+Route::post('/clients/create', [ClientsController::class, 'store'])->name('clients.store');
 
 
 Route::get('/', function () {

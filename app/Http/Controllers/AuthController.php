@@ -25,7 +25,7 @@ class AuthController extends Controller
         return redirect()->route('login')->with('error', 'E-mail e/ou senha inválidos');
       }
 
-      return redirect()->route('welcome');
+      return redirect()->route('products.index');
 
   }
 
@@ -47,7 +47,7 @@ class AuthController extends Controller
         User::query()->create($data);
         return back()->with('success', 'Usuário cadastrado com sucesso! Faça o login');
     } catch (\Throwable $th) {
-        //throw $th;
+        return back()->with('error', 'Ocorreu um erro ao cadastrar o usuário: ' . $th->getMessage());
     }
   }
 
