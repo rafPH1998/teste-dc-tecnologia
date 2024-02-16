@@ -20,7 +20,7 @@ class ProductController extends Controller
   public function store(Request $req)
   {
     $data = $req->validate([
-      'name'     => ['required', 'min:2', 'max:100'],
+      'name'     => ['required', 'min:2', 'max:100', 'unique:products,name'],
       'price'    => ['required', 'numeric'],
       'quantity' => ['required', 'integer'],
     ]);
