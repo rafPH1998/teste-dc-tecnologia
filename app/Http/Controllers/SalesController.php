@@ -11,11 +11,19 @@ use Illuminate\Http\Request;
 
 class SalesController extends Controller
 {
-  public function index()
+  public function index(Request $request)
   {
+    $query = Sale::with(['product', 'client']);
+
+    if ($request->has('filter') && $request->input('filter') == 'my_sales') {
+        $query->where('client_id', auth()->user()->id);
+    }
+
+    $sales = $query->get();
+    
     return view('sales.list', [
-      'sales'    => Sale::with(['product', 'client'])->get(),
-      'parcelas' => Transaction::get()
+        'sales' => $sales,
+        'parcelas' => Transaction::get()
     ]);
   }
   

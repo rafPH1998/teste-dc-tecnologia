@@ -60,7 +60,7 @@
           <div class="flex mt-2">
               <div class="flex flex-col w-full">
                   <label for="complemento" class="text-gray-600 text-sm">Cliente</label>
-                  <select name="cliente_id" id="cliente_id" class="p-1.5 w-full border rounded outline-none text-sm bg-white">
+                  <select required name="cliente_id" id="cliente_id" class="p-1.5 w-full border rounded outline-none text-sm bg-white">
                       <option value="">Selecione o cliente</option>
                       @foreach ($clients as $client)
                           <option value="{{ $client->id }}">{{ $client->name }}</option>

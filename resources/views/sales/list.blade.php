@@ -2,14 +2,17 @@
   <h1 class="sm:text-xl font-bold text-gray-600 text-xs">Lista de vendas cadastradas no sistema</h1>
 
   <div class="flex justify-between mt-8">
-    <ul class="flex items-center cursor-pointer text-xs">
-      <li class="px-2 text-white font-bold py-1 {{ request()->is('sales*') ? 'bg-blue-600' : '' }}">
-        <a href="{{ route('sales.index') }}">Todos</a>
-      </li>
-      <li class="px-2 text-white font-bold py-1 bg-blue-400 {{ request()->is('clients*') ? 'bg-blue-600' : '' }}">
-        <a href="{{ route('clients.index') }}">Minhas vendas</a>
-      </li>
-    </ul>
+    <form action="{{ route('sales.index') }}" method="GET">
+      <ul class="flex items-center cursor-pointer text-xs">
+          <li class="px-2 text-white font-bold py-1 bg-blue-400 {{ Route::currentRouteName() == 'sales.index' && !request('filter') ? 'bg-blue-600' : '' }}">
+              <button type="submit" name="filter" value="">Todos</button>
+          </li>
+          <li class="px-2 text-white font-bold py-1 bg-blue-400 {{ request('filter') == 'my_sales' ? 'bg-blue-600' : '' }}">
+              <button type="submit" name="filter" value="my_sales">Minhas vendas</button>
+          </li>
+      </ul>
+    </form>
+  
     <a href="{{route('sales.create')}}" class="rounded bg-gray-500 hover:bg-gray-600 px-2 py-1 text-white text-sm font-bold flex items-center">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
