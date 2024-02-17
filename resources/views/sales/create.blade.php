@@ -125,37 +125,37 @@ document.getElementById("parcelas").addEventListener("change", function() {
 
 // Função para adicionar produto ao carrinho
 function addToCart(product) {
-cart.push(product);
+  cart.push(product);
 }
 
 function calculateTotal() {
-let total = 0;
-cart.forEach(product => {
-  total += product.price;
-});
-formSalvar.style.display = total > 0 ? 'block' : 'none'; //exibi o formulario para selecionar o cliente caso adicionou um produto na lista
-exibiTotal.style.display = total > 0 ? 'block' : 'none'; //exibi o formulario para selecionar o cliente caso adicionou um produto na lista
+  let total = 0;
+  cart.forEach(product => {
+    total += product.price;
+  });
+  formSalvar.style.display = total > 0 ? 'block' : 'none'; //exibi o formulario para selecionar o cliente caso adicionou um produto na lista
+  exibiTotal.style.display = total > 0 ? 'block' : 'none'; //exibi o formulario para selecionar o cliente caso adicionou um produto na lista
 
-return total;
+  return total;
 }
 
 function updateTotalDisplay() {
-const total = calculateTotal();
-const resTotalElement = document.getElementById('resTotal');
-resTotalElement.textContent = `R$: ${total.toFixed(2)}`; // Exibe o valor total formatado com duas casas decimais
+  const total = calculateTotal();
+  const resTotalElement = document.getElementById('resTotal');
+  resTotalElement.textContent = `R$: ${total.toFixed(2)}`; // Exibe o valor total formatado com duas casas decimais
 }
 
 const saveButton = document.getElementById('saveButton');
 saveButton.addEventListener('click', () => {
-updateTotalDisplay(); // Atualiza o valor total quando o usuário clicar em salvar
+  updateTotalDisplay(); // Atualiza o valor total quando o usuário clicar em salvar
 });
 
 // Função para remover produto do carrinho
 function removeFromCart(productId) {
-const index = cart.findIndex(product => product.id === productId);
-if (index !== -1) {
-    cart.splice(index, 1);
-}
+  const index = cart.findIndex(product => product.id === productId);
+  if (index !== -1) {
+      cart.splice(index, 1);
+  }
 }
 
 // Atualizar a exibição do carrinho
@@ -165,36 +165,36 @@ console.log(cart);
 }
 
 incrementButtons.forEach(button => {
-button.addEventListener('click', () => {
-    const productElement = button.closest('.product');
-    const productId = productElement.dataset.productId;
-    const productName = productElement.dataset.productName; 
-    const productPrice = parseFloat(productElement.dataset.productPrice);
-    const quantityTotal = parseInt(productElement.dataset.productQuantity);
-    const quantityElement = document.querySelector(`.quantity[data-product-id="${productId}"]`);
-    let quantity = parseInt(quantityElement.textContent);
+  button.addEventListener('click', () => {
+      const productElement = button.closest('.product');
+      const productId = productElement.dataset.productId;
+      const productName = productElement.dataset.productName; 
+      const productPrice = parseFloat(productElement.dataset.productPrice);
+      const quantityTotal = parseInt(productElement.dataset.productQuantity);
+      const quantityElement = document.querySelector(`.quantity[data-product-id="${productId}"]`);
+      let quantity = parseInt(quantityElement.textContent);
 
-    if (quantity >= quantityTotal) {
-      return;
-    }
-    quantity++;
-    quantityElement.textContent = quantity;
-    addToCart({ id: productId, name: productName, price: productPrice, quantity: quantity }); // Adicionando objeto completo do produto ao carrinho
-    updateCartDisplay(); // Atualizar a exibição do carrinho
-});
+      if (quantity >= quantityTotal) {
+        return;
+      }
+      quantity++;
+      quantityElement.textContent = quantity;
+      addToCart({ id: productId, name: productName, price: productPrice, quantity: quantity }); // Adicionando objeto completo do produto ao carrinho
+      updateCartDisplay(); // Atualizar a exibição do carrinho
+  });
 });
 
 decrementButtons.forEach(button => {
-button.addEventListener('click', () => {
-    const productId = button.closest('.product').dataset.productId;
-    const quantityElement = document.querySelector(`.quantity[data-product-id="${productId}"]`);
-    let quantity = parseInt(quantityElement.textContent);
-    if (quantity > 0) {
-        quantity--;
-        quantityElement.textContent = quantity;
-        removeFromCart(productId); // Remover produto do carrinho
-        updateCartDisplay(); // Atualizar a exibição do carrinho
-    }
+  button.addEventListener('click', () => {
+      const productId = button.closest('.product').dataset.productId;
+      const quantityElement = document.querySelector(`.quantity[data-product-id="${productId}"]`);
+      let quantity = parseInt(quantityElement.textContent);
+      if (quantity > 0) {
+          quantity--;
+          quantityElement.textContent = quantity;
+          removeFromCart(productId); // Remover produto do carrinho
+          updateCartDisplay(); // Atualizar a exibição do carrinho
+      }
   });
 });
 
@@ -213,8 +213,22 @@ document.getElementById("formSalvar").addEventListener("submit", async function(
     // Extrair os valores dos elementos
     const valorParcela = [];
     valorParcelaElements.forEach(element => {
-        valorParcela.push(element.value);
+      valorParcela.push(element.value);
     });
+
+    let elementoValorTotalDaSomaDosProdutos = document.getElementById("resTotal");
+    if (elementoValorTotalDaSomaDosProdutos) {
+        let valorTexto = elementoValorTotalDaSomaDosProdutos.textContent;
+        let valor = valorTexto.replace("R$:", "").trim();
+        
+        const somaValorParcela = valorParcela.reduce((total, valor) => total + parseFloat(valor), 0);
+        // Verificar se o valor total dos produtos é igual à soma das parcelas
+        if (parseFloat(valor) !== somaValorParcela) {
+          salvaVenda.disabled = false;
+          salvaVenda.textContent = 'Salvar';
+          return alert("Valor de parcelas inválido! O valor total dos produtos não é igual à soma das parcelas")
+        }
+    }
 
     const dataPagamento = [];
     dataPagamentoElements.forEach(element => {

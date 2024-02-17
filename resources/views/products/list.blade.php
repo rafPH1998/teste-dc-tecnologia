@@ -8,36 +8,40 @@
       Cadastrar um produto
     </a>
   </div>
-  <table class="min-w-full border rounded mt-4 shadow-md"">
-    <thead class="bg-blue-500 text-white text-xs">
-      <tr>
-        <th scope="col" class="p-2 font-medium sm:px-6 sm:py-4 text-left">#</th>
-        <th scope="col" class="p-2 font-medium sm:px-6 sm:py-4 text-left">Produto</th>
-        <th scope="col" class="p-2 font-medium sm:px-6 sm:py-4 text-left">Preço do produto</th>
-        <th scope="col" class="p-2 font-medium sm:px-6 sm:py-4 text-left">Quantidade</th>
-        <th scope="col" class="p-2 font-medium sm:px-6 sm:py-4 text-left">Cliente</th>
-      </tr>
-    </thead>
-      @foreach ($products as $product)
-        <tbody>
-          <tr class="p-2 bg-blue-50 border-b text-xs hover:bg-blue-100">
-            <td class="p-2 font-light sm:px-6 sm:py-4 whitespace-nowrap">
-              {{ $product->id }}
-            </td>
-            <td class="p-2 font-light sm:px-6 sm:py-4 whitespace-nowrap">
-              {{ $product->name }}
-            </td>
-            <td class="p-2 font-light sm:px-6 sm:py-4 whitespace-nowrap">
-              R$ {{ number_format($product->price , 2, ',', '.') }}
-            </td>
-            <td class="p-2 font-light sm:px-6 sm:py-4 whitespace-nowrap">
-              {{ $product->quantity }}
-            </td>
-            <td class="p-2 font-light sm:px-6 sm:py-4 whitespace-nowrap">
-              {{ $product->user->name }}
-            </td>
-          </tr>
-        </tbody>
-      @endforeach
-  </table>
+  @if ($products->count() > 0)
+    <table class="min-w-full border rounded mt-4 shadow-md"">
+      <thead class="bg-blue-500 text-white text-xs">
+        <tr>
+          <th scope="col" class="p-2 font-medium sm:px-6 sm:py-4 text-left">#</th>
+          <th scope="col" class="p-2 font-medium sm:px-6 sm:py-4 text-left">Produto</th>
+          <th scope="col" class="p-2 font-medium sm:px-6 sm:py-4 text-left">Preço do produto</th>
+          <th scope="col" class="p-2 font-medium sm:px-6 sm:py-4 text-left">Quantidade</th>
+          <th scope="col" class="p-2 font-medium sm:px-6 sm:py-4 text-left">Cliente</th>
+        </tr>
+      </thead>
+        @foreach ($products as $product)
+          <tbody>
+            <tr class="p-2 bg-blue-50 border-b text-xs hover:bg-blue-100">
+              <td class="p-2 font-light sm:px-6 sm:py-4 whitespace-nowrap">
+                {{ $product->id }}
+              </td>
+              <td class="p-2 font-light sm:px-6 sm:py-4 whitespace-nowrap">
+                {{ $product->name }}
+              </td>
+              <td class="p-2 font-light sm:px-6 sm:py-4 whitespace-nowrap">
+                R$ {{ number_format($product->price , 2, ',', '.') }}
+              </td>
+              <td class="p-2 font-light sm:px-6 sm:py-4 whitespace-nowrap">
+                {{ $product->quantity }}
+              </td>
+              <td class="p-2 font-light sm:px-6 sm:py-4 whitespace-nowrap">
+                {{ $product->user->name }}
+              </td>
+            </tr>
+          </tbody>
+        @endforeach
+    </table>
+  @else
+    <p class="bg-white shadow rounded mt-2 p-4 text-xs">Nenhum produto cadastrado no momento!</p>
+  @endif
 </x-app>
