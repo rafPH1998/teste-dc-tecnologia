@@ -43,10 +43,14 @@ Instale as dependências do projeto
 composer install
 ```
 
-
 Gere a key do projeto Laravel
 ```sh
 php artisan key:generate
+```
+
+Dentro do container, rode as migrações para subir o banco de dados
+```sh
+php artisan migrate
 ```
 
 Acesse a rota para fazer um registro e logar no sistema
