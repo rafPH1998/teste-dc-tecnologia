@@ -49,6 +49,15 @@ Gere a key do projeto Laravel
 php artisan key:generate
 ```
 
+Acesse a rota para fazer um registro e logar no sistema
+```sh
+http://localhost:8000/registrar
+```
+logue no sistema
+```sh
+http://localhost:8000/login
+```
+
 
 Acesse o projeto
 [http://localhost:8989](http://localhost:8000)
