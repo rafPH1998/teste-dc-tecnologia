@@ -3,13 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
   public function index()
   {
-    return view('products.list', ['products' => Product::with('user')->get()]);
+    $products = Product::with('user')->get();
+
+    foreach ($products as $product) {
+        // calcula a quantidade total de produtos vendidos para este produto
+        $totalSold = Sale::where('product_id', $product->id)->sum('quantity_product');
+        
+        // subtrai a quantidade vendida da quantidade atual
+        $updatedQuantity = max(0, $product->quantity - $totalSold);
+
+        // atualiza a quantidade na tabela de produtos
+        $product['quantity'] = $updatedQuantity;
+        $product->save();
+    }
+
+    return view('products.list', ['products' => $products]);
   }
 
   public function create()
